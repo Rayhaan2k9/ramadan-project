@@ -1,22 +1,26 @@
-import logo from './logo.svg';
+import { Firestore, collection, getDocs, QuerySnapshot } from 'firebase/firestore';
+import { useState } from 'react';
 import './App.css';
+import { db } from './firebase';
+
 
 function App() {
+  let arr = []
+  const [messageList, setMessageList] = useState(null)
+  const [message, setMessage] = useState('')
+  const querySnapshot = getDocs(collection(db, "instead-of"))
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      arr.push({...doc.data()})
+      console.log(arr)
+    })
+    setMessage(arr[0].try)
+  })
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+       {message}
       </header>
     </div>
   );
