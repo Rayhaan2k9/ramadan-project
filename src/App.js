@@ -1,26 +1,53 @@
 import { Firestore, collection, getDocs, QuerySnapshot } from 'firebase/firestore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { db } from './firebase';
 
 
 function App() {
   let arr = []
-  const [messageList, setMessageList] = useState(null)
+  const insteadOf = []
+  const use = []
+  const[tryList, setTryList] = useState([])
+  const [insteadOfList, setInsteadOfList] = useState([])
   const [message, setMessage] = useState('')
-  const querySnapshot = getDocs(collection(db, "instead-of"))
+  
+  
+  
+  
+
+  useEffect(() => {
+   getDocs(collection(db, "instead-of"))
   .then((snapshot) => {
     snapshot.docs.forEach((doc) => {
       arr.push({...doc.data()})
-      console.log(arr)
     })
-    setMessage(arr[0].try)
   })
+  .then(() => {
+   arr.forEach((doc) => {
+     insteadOf.push(doc.instead)
+     use.push(doc.try)
+   })
+  })
+  .then(() => {
+    setInsteadOfList(insteadOf)
+    setTryList(use)
+  })
+  }, [])
 
   return (
     <div className="App">
       <header className="App-header">
-       {message}
+        <h3>Instead of</h3>
+       <ul>
+       {insteadOfList.map((doc, index) => <li key={index}>{doc}</li>)}
+       </ul>
+
+    <h3>Try</h3>
+    <ul>
+      {tryList.map((doc, index) => <li key={index}>{doc}</li>)}
+    </ul>
+
       </header>
     </div>
   );
