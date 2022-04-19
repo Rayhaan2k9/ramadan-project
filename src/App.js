@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { Language } from './components/Language';
 import { db } from './firebase';
+import Clock from "react-live-clock"
+import moment from "moment"
 
 
 function App() {
@@ -10,10 +12,11 @@ function App() {
   const [prayerTimes, setPrayerTimes] = useState([])
   const [timeStamp, setTimeStamp] = useState(null)
   const [formattedTime, setFormattedTime] = useState(null)
+  
 
   function formatTime(timestamp) {
     let date = new Date(timestamp * 1000)
-    console.log(date);
+    console.log(date.toLocaleDateString())
   setFormattedTime("Date: "+date.getDate()+
   "/"+(date.getMonth()+1)+
   "/"+date.getFullYear()+
@@ -22,7 +25,8 @@ function App() {
   ":"+date.getSeconds());
   }
   
-  
+ console.log(moment().format())
+ const now = moment().format("dddd, MMMM Do YYYY")
 
   useEffect(() => {
     getDocs(collection(db, "prayer-times"))
@@ -49,8 +53,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <h2>Fajar: {formattedTime}</h2>
-      <Language />
+        <h1>{now}</h1>
+      <Clock
+          format={'h:mm:ss a'}
+          style={{fontSize: '1.5em'}}
+          ticking={true} />
+      
       </header>
     </div>
   );
