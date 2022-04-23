@@ -1,10 +1,10 @@
 import { Firestore, collection, getDocs, QuerySnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Language } from './components/Language';
 import { db } from './firebase';
 import Clock from "react-live-clock"
 import moment from "moment"
+import { Date } from './components/Date';
 
 
 function App() {
@@ -14,18 +14,19 @@ function App() {
   const [formattedTime, setFormattedTime] = useState(null)
   
 
-  function formatTime(timestamp) {
-    let date = new Date(timestamp * 1000)
-    console.log(date.toLocaleDateString())
-  setFormattedTime("Date: "+date.getDate()+
-  "/"+(date.getMonth()+1)+
-  "/"+date.getFullYear()+
-  " "+date.getHours()+
-  ":"+date.getMinutes()+
-  ":"+date.getSeconds());
-  }
+  // function formatTime(timestamp) {
+  //   let date = new Date(timestamp * 1000)
+  //   console.log(date)
+  //   console.log(moment(date).format("DD"))
+  // setFormattedTime("Date: "+date.getDate()+
+  // "/"+(date.getMonth()+1)+
+  // "/"+date.getFullYear()+
+  // " "+date.getHours()+
+  // ":"+date.getMinutes()+
+  // ":"+date.getSeconds());
+  // }
   
- console.log(moment().format())
+ 
  const now = moment().format("dddd, MMMM Do YYYY")
 
   useEffect(() => {
@@ -45,21 +46,15 @@ function App() {
       console.log(timeStamp)
     })
     .then(() => {
-      formatTime(timeStamp)
       console.log(formattedTime)
     })
   }, [formattedTime, timeStamp])
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>{now}</h1>
-      <Clock
-          format={'h:mm:ss a'}
-          style={{fontSize: '1.5em'}}
-          ticking={true} />
       
-      </header>
+<Date />
+      
     </div>
   );
 }
