@@ -10,13 +10,22 @@ export function PrayerTimes() {
     const timesArray = []
     const [prayerTimes, setPrayerTimes] = useState([])
     const [fajar, setFajar] = useState(null)
+    const [zohar, setZohar] = useState(null)
+    const [asar, setAsar] = useState(null)
+    const [magrib, setMagrib] = useState(null)
+    const [isha, setIsha] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    
+
+    const now = moment().format("D")
+    
 
     function formatTime(timestamp) {
         let time = new Date(timestamp * 1000)
-
     }
 
     useEffect(() => {
+        setIsLoading(true)
         getDocs(collection(db, "prayer-times"))
         .then((snapshot) => {
             snapshot.docs.forEach((doc) => {
@@ -25,20 +34,30 @@ export function PrayerTimes() {
         })
         .then(() => {
             setPrayerTimes(timesArray)
-            setFajar(prayerTimes[0][23].Fajar.seconds)
-            console.log(fajar)
         })
-    }, [])
+        .then(() => {
+            setFajar(prayerTimes[0][now].Fajar.seconds)
+            setZohar(prayerTimes[0][now].Zohar.seconds)
+            setAsar(prayerTimes[0][now].Asar.seconds)
+            setMagrib(prayerTimes[0][now].Magrib.seconds)
+            setIsha(prayerTimes[0][now].Isha.seconds)
+        })
+        .then(() => {
+            setIsLoading(false)
+        })
+    }, [now, prayerTimes])
 
 
     return (
+        isLoading ? <p>Loading prayer times...</p> :
         <div className="prayer-container">
+            
             <div className="prayer-times">
                 <h5>Fajar: {moment(fajar * 1000).format("h:mm")}am </h5>
-                <h5>Zohar: </h5>
-                <h5>Asar: </h5>
-                <h5>Magrib: </h5>
-                <h5>Isha: </h5>
+                <h5>Zohar: {moment(zohar * 1000).format("h:mm")}pm</h5>
+                <h5>Asar: {moment(asar * 1000).format("h:mm")}pm</h5>
+                <h5>Magrib: {moment(magrib * 1000).format("h:mm")}pm</h5>
+                <h5>Isha: {moment(isha * 1000).format("h:mm")}pm</h5>
             </div>
         </div>
     )

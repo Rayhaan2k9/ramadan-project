@@ -8,11 +8,17 @@ import { PrayerTimes } from './PrayerTimes';
 
 export function Date() {
 
+const [today, setToday] = useState(null)
+const now = moment().format("dddd, MMMM Do YYYY")
+
+useEffect(() => {
+    setToday(now)
+}, [now, today])
 
     return (
         <div className='date-container'>
             <div className='date-time'>
-            <h1>Today is {moment().format("dddd, MMMM Do YYYY")}</h1>
+            <h1>Today is {today}</h1>
 
             <Clock
           format={'h:mm:ss a'}

@@ -8,10 +8,10 @@ import { Date } from './components/Date';
 
 
 function App() {
-  const array = []
-  const [prayerTimes, setPrayerTimes] = useState([])
-  const [timeStamp, setTimeStamp] = useState(null)
-  const [formattedTime, setFormattedTime] = useState(null)
+  // const array = []
+  // const [prayerTimes, setPrayerTimes] = useState([])
+  // const [timeStamp, setTimeStamp] = useState(null)
+  // const [formattedTime, setFormattedTime] = useState(null)
   
 
   // function formatTime(timestamp) {
@@ -27,28 +27,28 @@ function App() {
   // }
   
  
- const now = moment().format("dddd, MMMM Do YYYY")
+//  const now = moment().format("dddd, MMMM Do YYYY")
 
-  useEffect(() => {
-    getDocs(collection(db, "prayer-times"))
-    .then((snapshot) => {
-    //  array.push(snapshot.docs[0]._document.data.value.mapValue.fields['02/04/22']);
-    snapshot.docs.forEach((doc) => {
-      array.push({...doc.data()})
-    })
-    })
-    .then(() => {
-      setPrayerTimes(array)
-    })
-    .then(() => {
+  // useEffect(() => {
+  //   getDocs(collection(db, "prayer-times"))
+  //   .then((snapshot) => {
+  //   //  array.push(snapshot.docs[0]._document.data.value.mapValue.fields['02/04/22']);
+  //   snapshot.docs.forEach((doc) => {
+  //     array.push({...doc.data()})
+  //   })
+  //   })
+  //   .then(() => {
+  //     setPrayerTimes(array)
+  //   })
+  //   .then(() => {
       
-      setTimeStamp(prayerTimes[0]["02/04/22"].Fajar.seconds)
-      console.log(timeStamp)
-    })
-    .then(() => {
-      console.log(formattedTime)
-    })
-  }, [formattedTime, timeStamp])
+  //     setTimeStamp(prayerTimes[0]["02/04/22"].Fajar.seconds)
+  //     console.log(timeStamp)
+  //   })
+  //   .then(() => {
+  //     console.log(formattedTime)
+  //   })
+  // }, [formattedTime, timeStamp])
 
   return (
     <div className="App">
