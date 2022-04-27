@@ -8,7 +8,7 @@ import moment from "moment"
 export function PrayerTimes() {
 
     const timesArray = []
-    const [prayerTimes, setPrayerTimes] = useState([])
+    const [prayerTimes, setPrayerTimes] = useState('ray')
     const [fajar, setFajar] = useState(null)
     const [zohar, setZohar] = useState(null)
     const [asar, setAsar] = useState(null)
@@ -29,23 +29,21 @@ export function PrayerTimes() {
         getDocs(collection(db, "prayer-times"))
         .then((snapshot) => {
             snapshot.docs.forEach((doc) => {
-                timesArray.push({...doc.data()})
+                setPrayerTimes({...doc.data()})
             })
         })
         .then(() => {
-            setPrayerTimes(timesArray)
-        })
-        .then(() => {
-            setFajar(prayerTimes[0][now].Fajar.seconds)
-            setZohar(prayerTimes[0][now].Zohar.seconds)
-            setAsar(prayerTimes[0][now].Asar.seconds)
-            setMagrib(prayerTimes[0][now].Magrib.seconds)
-            setIsha(prayerTimes[0][now].Isha.seconds)
-        })
-        .then(() => {
+            
+            setFajar(prayerTimes[now].Fajar.seconds)
+            setZohar(prayerTimes[now].Zohar.seconds)
+            setAsar(prayerTimes[now].Asar.seconds)
+            setMagrib(prayerTimes[now].Magrib.seconds)
+            setIsha(prayerTimes[now].Isha.seconds)
             setIsLoading(false)
         })
-    }, [now, prayerTimes])
+       
+    }, [])
+    
 
 
     return (
