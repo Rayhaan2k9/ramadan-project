@@ -7,25 +7,25 @@ import moment from "moment"
 import { PrayerTimes } from './PrayerTimes';
 
 export function Date() {
-
+const [newDay, setnewDay] = useState(null)
 const [today, setToday] = useState(null)
 const now = moment().format("dddd, MMMM Do YYYY")
 
 useEffect(() => {
     setToday(now)
-}, [now, today])
+}, [newDay])
 
     return (
         <div className='date-container'>
             <div className='date-time'>
-            <h1>Today is {today}</h1>
+            <h2>{today}</h2>
 
             <Clock
           format={'h:mm:ss a'}
           style={{fontSize: '1.5em'}}
           ticking={true} />
 
-          <PrayerTimes />
+          <PrayerTimes setnewDay = {setnewDay} newDay = {newDay}/>
             </div>
 
         </div>

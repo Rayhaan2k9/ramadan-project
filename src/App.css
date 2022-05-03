@@ -1,5 +1,14 @@
 .App {
   text-align: center;
+  background-color: black;
+  height: 100vh;
+  
+  
+}
+
+@font-face {
+  font-family: clock;
+  src: url(fonts/Orbitron/Orbitron-VariableFont_wght.ttf);
 }
 
 .App-logo {
@@ -7,13 +16,20 @@
   pointer-events: none;
 }
 
+.date-time {
+  font-family: clock;
+}
+
 .date-container {
-  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white
 }
 
 .prayer-times {
-  display: flex;
-  justify-content: space-around;
+  border: solid rgb(17, 222, 230) 1px;
+  margin-top: 200px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

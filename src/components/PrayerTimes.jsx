@@ -5,10 +5,10 @@ import moment from "moment"
 
 
 
-export function PrayerTimes() {
+export function PrayerTimes({newDay, setnewDay}) {
 
     const timesArray = []
-    const [prayerTimes, setPrayerTimes] = useState('ray')
+    const [prayerTimes, setPrayerTimes] = useState({})
     const [fajar, setFajar] = useState(null)
     const [zohar, setZohar] = useState(null)
     const [asar, setAsar] = useState(null)
@@ -16,9 +16,17 @@ export function PrayerTimes() {
     const [isha, setIsha] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     
-
-    const now = moment().format("D")
     
+    const midnight = "0:00:00"
+    const today = moment().format("DD/MM/YY")
+    let now = null;
+    
+    setInterval(() => {
+        now = moment().format("H:mm:ss")
+        if (now === midnight) {
+            setnewDay(today)
+        }
+    }, 1000);
 
     function formatTime(timestamp) {
         let time = new Date(timestamp * 1000)
@@ -32,17 +40,24 @@ export function PrayerTimes() {
                 setPrayerTimes({...doc.data()})
             })
         })
-        .then(() => {
-            
-            setFajar(prayerTimes[now].Fajar.seconds)
-            setZohar(prayerTimes[now].Zohar.seconds)
-            setAsar(prayerTimes[now].Asar.seconds)
-            setMagrib(prayerTimes[now].Magrib.seconds)
-            setIsha(prayerTimes[now].Isha.seconds)
-            setIsLoading(false)
-        })
        
-    }, [])
+    }, [newDay])
+
+    useEffect(() => {
+        
+        if (prayerTimes[today]) {
+        setFajar(prayerTimes[today].Fajar.seconds)
+                setZohar(prayerTimes[today].Zohar.seconds)
+                setAsar(prayerTimes[today].Asar.seconds)
+                setMagrib(prayerTimes[today].Magrib.seconds)
+                setIsha(prayerTimes[today].Isha.seconds)
+                setTimeout(() => {
+                  setIsLoading(false)  
+                }, 600);
+                
+        }
+        
+    }, [prayerTimes])
     
 
 
@@ -51,11 +66,11 @@ export function PrayerTimes() {
         <div className="prayer-container">
             
             <div className="prayer-times">
-                <h5>Fajar: {moment(fajar * 1000).format("h:mm")}am </h5>
-                <h5>Zohar: {moment(zohar * 1000).format("h:mm")}pm</h5>
-                <h5>Asar: {moment(asar * 1000).format("h:mm")}pm</h5>
-                <h5>Magrib: {moment(magrib * 1000).format("h:mm")}pm</h5>
-                <h5>Isha: {moment(isha * 1000).format("h:mm")}pm</h5>
+                <h1>Fajar: {moment(fajar * 1000).format("h:mm")}am </h1>
+                <h1>Zohar: {moment(zohar * 1000).format("h:mm")}pm</h1>
+                <h1>Asar: {moment(asar * 1000).format("h:mm")}pm</h1>
+                <h1>Magrib: {moment(magrib * 1000).format("h:mm")}pm</h1>
+                <h1>Isha: {moment(isha * 1000).format("h:mm")}pm</h1>
             </div>
         </div>
     )
